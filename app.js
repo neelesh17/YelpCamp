@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+const url = process.env.DATABASE_URL || "mongodb://localhost/yelp_camp";
 const express        = require("express"),
       app            = express(),
       bodyParser     = require("body-parser"),
@@ -20,8 +20,7 @@ mongoose.set('useUnifiedTopology', true);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useNewUrlParser', true);     
 mongoose.set('useFindAndModify', false); 
-mongoose.connect("mongodb://localhost/yelp_camp");
-// mongoose.connect("mongodb+srv://yelpcamp:Neelesh@1703@cluster0-s09nj.mongodb.net/test?retryWrites=true&w=majority");
+mongoose.connect(url);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("partials"));
 app.set("view engine", "ejs");
