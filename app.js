@@ -1,5 +1,6 @@
 require('dotenv').config();
-const url = process.env.DATABASE_URL || "mongodb://localhost/yelp_camp";
+const url = "mongodb://localhost/yelp_camp"; 
+// || process.env.DATABASE_URL ;
 const express        = require("express"),
       app            = express(),
       bodyParser     = require("body-parser"),

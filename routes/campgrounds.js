@@ -4,29 +4,30 @@ const express       = require("express"),
       Comment       = require("../models/comments"),
       Review        = require("../models/reviews"),
       middleware    = require("../middleware"); //we did not put /index in the route because index.js is a special file.
-                                                // That is automatically required if we require the directory
-      //configuring multer for image upload    
-      var multer = require('multer');
-      var storage = multer.diskStorage({
-        filename: function(req, file, callback) {
-          callback(null, Date.now() + file.originalname);
-        }
-      });
-      var imageFilter = function (req, file, cb) {
-          // accept image files only
-          if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
-              return cb(new Error('Only image files are allowed!'), false);
-          }
-          cb(null, true);
-      };
-      var upload = multer({ storage: storage, fileFilter: imageFilter})
-      
-      var cloudinary = require('cloudinary');
-      cloudinary.config({ 
-        cloud_name: 'dqtcm5xy3', 
-        api_key: process.env.CLOUDINARY_API_KEY, 
-        api_secret: process.env.CLOUDINARY_API_SECRET
-      });     
+                                     // That is automatically required if we require the directory
+
+//configuring multer for image upload        
+var multer = require('multer');
+var storage = multer.diskStorage({
+filename: function(req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+}
+});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+var upload = multer({ storage: storage, fileFilter: imageFilter})
+
+var cloudinary = require('cloudinary');
+cloudinary.config({ 
+cloud_name: 'dqtcm5xy3', 
+api_key: process.env.CLOUDINARY_API_KEY, 
+api_secret: process.env.CLOUDINARY_API_SECRET
+});     
                                                                                     
 
 //INDEX Route
@@ -82,18 +83,18 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
         req.body.campground.imageId = result.public_id;
         // add author to campground
         req.body.campground.author = {
-          id: req.user._id,
-          username: req.user.username
+        id: req.user._id,
+        username: req.user.username
         }
         Campground.create(req.body.campground, function(err, campground) {
-          if (err) {
-            req.flash('error', err.message);
-            return res.redirect('back');
-          }
-          req.flash("success","Successfully Created Campground");
-          res.redirect('/campgrounds/' + campground.id);
+            if (err) {
+                req.flash('error', err.message);
+                return res.redirect('back');
+            }
+            req.flash("success","Successfully Created Campground");
+            res.redirect('/campgrounds/' + campground.id);
         });
-      });
+    });
 });
 
 //EDIT Route
