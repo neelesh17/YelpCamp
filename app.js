@@ -55,6 +55,6 @@ app.use("/campgrounds/:id/reviews", reviewRoutes);
 
 
 
-app.listen(3000 || process.env.PORT,process.env.IP, function(){
+app.listen(process.env.PORT,process.env.IP, function(){
     console.log("Yelp Camp has started...");
 });
