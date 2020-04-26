@@ -1,6 +1,6 @@
 require('dotenv').config();
-const url = "mongodb://localhost/yelp_camp"; 
-// || process.env.DATABASE_URL ;
+const url = process.env.DATABASE_URL;
+// || "mongodb://localhost/yelp_camp"
 const express        = require("express"),
       app            = express(),
       bodyParser     = require("body-parser"),
@@ -55,6 +55,6 @@ app.use("/campgrounds/:id/reviews", reviewRoutes);
 
 
 
-app.listen(3000 || process.env.PORT,process.env.IP, function(){
+app.listen(process.env.PORT,process.env.IP, function(){
     console.log("Yelp Camp has started...");
 });
